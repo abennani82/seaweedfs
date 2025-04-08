@@ -52,7 +52,7 @@ spec:
       serviceAccountName: {{ .Values.global.serviceAccountName }}-objectstorage-provisioner
       {{- if .Values.cosi.initContainers }}
       initContainers:
-        {{ tpl .Values.cosi.initContainers . | nindent 8 | trim }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.cosi.initContainers "context" $) | nindent 8 }}
       {{- end }}
       {{- if .Values.cosi.podSecurityContext.enabled }}
       securityContext: {{- omit .Values.cosi.podSecurityContext "enabled" | toYaml | nindent 8 }}
@@ -139,7 +139,9 @@ spec:
               readOnly: true
               mountPath: /usr/local/share/ca-certificates/client/
             {{- end }}
-            {{ tpl .Values.cosi.extraVolumeMounts . | nindent 12 | trim }}
+            {{- if .Values.cosi.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.cosi.extraVolumeMounts "context" $) | nindent 12 }}
+            {{- end }}
           {{- with .Values.cosi.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -200,7 +202,9 @@ spec:
           secret:
             secretName: {{ template "seaweedfs.name" . }}-client-cert
         {{- end }}
-        {{ tpl .Values.cosi.extraVolumes . | indent 8 | trim }}
+        {{- if .Values.cosi.extraVolumes }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.cosi.extraVolumes "context" $) | nindent 8 }}
+        {{- end }}
       {{- if .Values.cosi.nodeSelector }}
       nodeSelector:
         {{ tpl .Values.cosi.nodeSelector . | indent 8 | trim }}

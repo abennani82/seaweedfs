@@ -57,7 +57,7 @@ spec:
       {{- end }}
       {{- if .Values.s3.initContainers }}
       initContainers:
-        {{ tpl .Values.s3.initContainers . | nindent 8 | trim }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.s3.initContainers "context" $) | nindent 8 }}
       {{- end }}
       {{- if .Values.s3.podSecurityContext.enabled }}
       securityContext: {{- omit .Values.s3.podSecurityContext "enabled" | toYaml | nindent 8 }}
@@ -175,7 +175,9 @@ spec:
               readOnly: true
               mountPath: /usr/local/share/ca-certificates/client/
             {{- end }}
-            {{ tpl .Values.s3.extraVolumeMounts . | nindent 12 | trim }}
+            {{- if .Values.s3.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.s3.extraVolumeMounts "context" $) | nindent 12 }}
+            {{- end }}
           ports:
             - containerPort: {{ .Values.s3.port }}
               name: swfs-s3
@@ -262,7 +264,9 @@ spec:
           secret:
             secretName: {{ template "seaweedfs.name" . }}-client-cert
         {{- end }}
-        {{ tpl .Values.s3.extraVolumes . | indent 8 | trim }}
+        {{- if .Values.s3.extraVolumes }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.s3.extraVolumes "context" $) | nindent 8 }}
+        {{- end }}
       {{- if .Values.s3.nodeSelector }}
       nodeSelector:
         {{ tpl .Values.s3.nodeSelector . | indent 8 | trim }}

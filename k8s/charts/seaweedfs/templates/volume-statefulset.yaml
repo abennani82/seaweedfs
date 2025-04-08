@@ -83,7 +83,7 @@ spec:
           {{- end }}
         {{- end }}
         {{- if .Values.volume.initContainers }}
-        {{ tpl .Values.volume.initContainers . | nindent 8 | trim }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.volume.initContainers "context" $) | nindent 8 }}
         {{- end }}
       {{- end }}
       {{- if .Values.volume.podSecurityContext.enabled }}
@@ -220,7 +220,9 @@ spec:
               readOnly: true
               mountPath: /usr/local/share/ca-certificates/client/
             {{- end }}
-            {{ tpl .Values.volume.extraVolumeMounts . | nindent 12 | trim }}
+            {{- if .Values.volume.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.volume.extraVolumeMounts "context" $) | nindent 12 }}
+            {{- end }}
           ports:
             - containerPort: {{ .Values.volume.port }}
               name: swfs-vol
@@ -342,7 +344,7 @@ spec:
             secretName: {{ template "seaweedfs.name" . }}-client-cert
       {{- end }}
       {{- if .Values.volume.extraVolumes }}
-        {{ tpl .Values.volume.extraVolumes . | indent 8 | trim }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.volume.extraVolumes "context" $) | nindent 8 }}
       {{- end }}
       {{- if .Values.volume.nodeSelector }}
       nodeSelector:

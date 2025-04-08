@@ -129,10 +129,10 @@ master:
   ##         containerPort: 1234
   ##
   sidecars: []
-  initContainers: ""
+  initContainers: []
 
-  extraVolumes: ""
-  extraVolumeMounts: ""
+  extraVolumes: []
+  extraVolumeMounts: []
 
   # Labels to be added to the master pods
   podLabels: {}
@@ -393,7 +393,7 @@ volume:
   ##         containerPort: 1234
   ##
   sidecars: []
-  initContainers: ""
+  initContainers: []
 
   # Example for use when using more than 1 volume server replica
   # extraVolumeMounts: |
@@ -404,8 +404,8 @@ volume:
   #   - name: drive
   #     hostPath:
   #       path: /var/mnt/
-  extraVolumes: ""
-  extraVolumeMounts: ""
+  extraVolumes: []
+  extraVolumeMounts: []
 
   # Labels to be added to the volume pods
   podLabels: {}
@@ -621,10 +621,10 @@ filer:
   ##         containerPort: 1234
   ##
   sidecars: []
-  initContainers: ""
+  initContainers: []
 
-  extraVolumes: ""
-  extraVolumeMounts: ""
+  extraVolumes: []
+  extraVolumeMounts: []
 
   # Labels to be added to the filer pods
   podLabels: {}
@@ -843,10 +843,10 @@ s3:
   ##         containerPort: 1234
   ##
   sidecars: []
-  initContainers: ""
+  initContainers: []
 
-  extraVolumes: ""
-  extraVolumeMounts: ""
+  extraVolumes: []
+  extraVolumeMounts: []
 
   # Labels to be added to the s3 pods
   podLabels: {}
@@ -976,9 +976,9 @@ cosi:
 
   podSecurityContext: {}
   containerSecurityContext: {}
-
-  extraVolumes: ""
-  extraVolumeMounts: ""
+  initContainers: []
+  extraVolumes: []
+  extraVolumeMounts: []
 
   # Resource requests, limits, etc. for the server cluster placement. This
   # should map directly to the value of the resources field for a PodSpec,
